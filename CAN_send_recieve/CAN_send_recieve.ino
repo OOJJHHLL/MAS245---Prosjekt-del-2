@@ -75,7 +75,8 @@ void loop(void)
   while (Can0.available()) 
   {
     Can0.read(inMsg);
-    Serial.print("CAN bus 0: "); hexDump(8, inMsg.buf);
+    Serial.print("CAN bus 0: "); 
+    hexDump(8, inMsg.buf);
   }
   msg.buf[0]++;
   Can0.write(msg);

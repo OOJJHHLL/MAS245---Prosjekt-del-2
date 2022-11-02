@@ -25,7 +25,7 @@ void setup() {
   Can1.begin(500000); //set speed here. 
 
 
-// by default, we'll generate the high voltage from the 3.3v line internally! (neat!)
+  // by default, we'll generate the high voltage from the 3.3v line internally! (neat!)
   display.begin(SSD1306_SWITCHCAPVCC);
   display.clearDisplay();
   //Serial.begin(500000);
@@ -49,14 +49,13 @@ void setup() {
 //void set_display()
 //{
   /*
-display.setCursor(0, 0); // top left
-display.setCursor(15, 0); // top right
-display.setCursor(0, 1); // bottom left
-display.setCursor(15, 1); // bottom right
-display.setTextSize(1); Default 1
- */ 
-
- /* display.clearDisplay(); // Clears the display
+  display.setCursor(0, 0); // top left
+  display.setCursor(15, 0); // top right
+  display.setCursor(0, 1); // bottom left
+  display.setCursor(15, 1); // bottom right
+  display.setTextSize(1); Default 1
+ 
+  display.clearDisplay(); // Clears the display
   //display.drawRect(1,1,127,63,WHITE); // display.drawRect(x, y, width, height)
   display.drawRoundRect(1,1,127,63,4,WHITE);
   display.setTextSize(0);
@@ -82,8 +81,8 @@ display.setTextSize(1); Default 1
   display.setCursor(3,52);
   display.println("IMU-maaling:");
   display.display();
-
-}*/
+}
+*/
 
 
 void tx_CAN() // Using serial communication on TX-pin (serial pin). T for transmitter, R for reciever
@@ -149,18 +148,18 @@ void loop()
   display.println(msg_count++);
   display.display();
 
-    Serial.print(rxmsg.id,HEX); 
-    Serial.print(' '); 
-    Serial.print(rxmsg.len,HEX); 
-    Serial.print(' ');
-    Serial.println(CANStr);  
-     
-    display.fillRect(0,15,128, 30,BLACK);
-    display.setCursor(0,15);
-     
-    display.println(rxmsg.id,HEX); 
-    display.println(rxmsg.len,HEX); 
-    display.println(CANStr);
-    display.display();
+  Serial.print(rxmsg.id,HEX); 
+  Serial.print(' '); 
+  Serial.print(rxmsg.len,HEX); 
+  Serial.print(' ');
+  Serial.println(CANStr);  
+    
+  display.fillRect(0,15,128, 30,BLACK);
+  display.setCursor(0,15);
+    
+  display.println(rxmsg.id,HEX); 
+  display.println(rxmsg.len,HEX); 
+  display.println(CANStr);
+  display.display();
 
 }
