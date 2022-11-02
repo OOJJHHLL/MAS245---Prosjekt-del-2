@@ -39,24 +39,23 @@ static void hexDump(uint8_t dumpLen, uint8_t *bytePtr)
 // -------------------------------------------------------------
 void setup(void)
 {
+  Serial.begin(9600);
   delay(1000);
   Serial.println(F("Hello Teensy 3.6 dual CAN Test."));
+  //Serial.begin(250000);
 
-  Can0.begin();  
-  Can1.begin();
+  Can0.begin(250000);  
 
   //if using enable pins on a transceiver they need to be set on
   // Sjekk at du bruker riktig pin
-  pinMode(2, OUTPUT); //can0?
-  pinMode(35, OUTPUT);
+  pinMode(2, OUTPUT); //can0
 
   digitalWrite(2, HIGH);
-  digitalWrite(35, HIGH);
 
   msg.ext = 0;
-  msg.id = 0x100;
+  msg.id = 0x101; //Det man sender ut
   msg.len = 8;
-  // Meldingene som skal mottas
+  // Meldingene som skal sendes
   msg.buf[0] = 0;
   msg.buf[1] = 0;
   msg.buf[2] = 0;
@@ -74,8 +73,14 @@ void loop(void)
   CAN_message_t inMsg;
   while (Can0.available()) 
   {
-    Can0.read(inMsg);
-    Serial.print("CAN bus 0: "); hexDump(8, inMsg.buf);
+    Can0.read(inMsg); // Leser fra transmit i PCAN-view?
+    Serial.print("CAN bus 0: "); 
+    hexDump(8, inMsg.buf);
+    delay(20);
+    //delay(1000);
+    //Serial.write(insMsg);
+    //Can0.write(inMsg); // Skriver meldingen til recieve i PCAN-view
+    //delay(1000);
   }
   msg.buf[0]++;
   Can0.write(msg);
@@ -93,5 +98,7 @@ void loop(void)
   Can0.write(msg);
   msg.buf[7]++;
   Can0.write(msg);      
-  delay(20);
+  delay(1000);
+
+
 }
