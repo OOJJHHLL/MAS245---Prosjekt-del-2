@@ -100,5 +100,4 @@ void loop(void)
   Can0.write(msg);      
   delay(1000);
 
-
 }
