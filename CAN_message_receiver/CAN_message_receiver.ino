@@ -142,14 +142,15 @@ void loop()
   display.setCursor(3,40);
   display.setTextSize(0.5);
   display.println("Mottok sist ID:");
-  display.drawLine(1,49,127,49, WHITE); // display.drawLine(x0,y0,x1,y1, WHITE);
+  display.setCursor(3,49);
+  display.println("--------------");
   
   display.setCursor(3,52);
-  //display.println("IMU-maaling:");
-  display.println(msg_count++);
+  display.println("IMU-maaling:");
+  //display.println(msg_count++);
   display.display();
 
-    Serial.print(rxmsg.id,HEX); 
+    /*Serial.print(rxmsg.id,HEX); 
     Serial.print(' '); 
     Serial.print(rxmsg.len,HEX); 
     Serial.print(' ');
@@ -161,6 +162,6 @@ void loop()
     display.println(rxmsg.id,HEX); 
     display.println(rxmsg.len,HEX); 
     display.println(CANStr);
-    display.display();
+    display.display();*/
 
 }
