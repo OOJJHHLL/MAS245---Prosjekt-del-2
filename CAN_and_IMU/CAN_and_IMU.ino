@@ -20,6 +20,7 @@
 #include <Wire.h>
 #include <Adafruit_GFX.h>
 #include <Adafruit_SSD1306.h>
+#include <MPU9250.h>
 
 #define OLED_DC     6
 #define OLED_CS     10
