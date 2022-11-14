@@ -61,6 +61,43 @@ static void hexDump(uint8_t dumpLen, uint8_t *bytePtr)
 int rCount = 1;
 
 
+
+/*
+void IMU_setup()
+{
+Serial.begin(115200);
+  Wire.begin();
+  if(!myMPU9250.init()){
+    Serial.println("MPU9250 does not respond");
+  }
+  else{
+    Serial.println("MPU9250 is connected");
+  }
+  if(!myMPU9250.initMagnetometer()){
+    Serial.println("Magnetometer does not respond");
+  }
+  else{
+    Serial.println("Magnetometer is connected");
+  }
+
+  Serial.println("Position you MPU9250 flat and don't move it - calibrating...");
+  delay(1000);
+  myMPU9250.autoOffsets();
+  Serial.println("Done!");
+
+  
+  myMPU9250.enableGyrDLPF();
+  myMPU9250.setGyrDLPF(MPU9250_DLPF_6);
+  myMPU9250.setSampleRateDivider(5);
+  myMPU9250.setGyrRange(MPU9250_GYRO_RANGE_250);
+  myMPU9250.setAccRange(MPU9250_ACC_RANGE_2G);
+  myMPU9250.enableAccDLPF(true);
+  myMPU9250.setAccDLPF(MPU9250_DLPF_6);
+  myMPU9250.setMagOpMode(AK8963_CONT_MODE_100HZ);
+  delay(200);
+}
+*/
+
 void setup() 
 {
 Can0.begin(250000);  
@@ -88,6 +125,7 @@ Can0.begin(250000);
   display.begin(SSD1306_SWITCHCAPVCC);
   display.clearDisplay();
   
+
   Serial.begin(115200);
   Wire.begin();
   if(!myMPU9250.init()){
@@ -101,9 +139,14 @@ Can0.begin(250000);
   myMPU9250.autoOffsets();
   Serial.println("Done!");
  myMPU9250.setSampleRateDivider(5);
-myMPU9250.setAccRange(MPU9250_ACC_RANGE_2G);
-myMPU9250.enableAccDLPF(true);
-myMPU9250.setAccDLPF(MPU9250_DLPF_6);
+  myMPU9250.setAccRange(MPU9250_ACC_RANGE_2G);
+  myMPU9250.enableAccDLPF(true);
+  myMPU9250.setAccDLPF(MPU9250_DLPF_6);
+
+  myMPU9250.setSampleRateDivider(5);
+  myMPU9250.setAccRange(MPU9250_ACC_RANGE_2G);
+  myMPU9250.enableAccDLPF(true);
+  myMPU9250.setAccDLPF(MPU9250_DLPF_6);
 }
 
 
