@@ -175,7 +175,10 @@ void set_display()
   display.println("--------------");
   
   display.setCursor(3,52);
-  display.println("IMU-maaling:");
+  display.println("IMU-verdi:");
+
+  display.setCursor(95, 52);
+  display.println("m/s^2");
 
   display.display();
 }
@@ -200,7 +203,7 @@ while (Can0.available())
 
     display.setCursor(110,30);
     display.println(rCount);
-    display.setCursor(100,40);
+    display.setCursor(120,40);
     display.println(inMsg.id,HEX); //Converterer fra hex til int hvis jeg ikke skriver ,hex
 
   }  
@@ -210,16 +213,19 @@ while (Can0.available())
       set_display();
       display.setCursor(110,30);
       display.println(rCount);
-      display.setCursor(100,40);
+      display.setCursor(110,40);
       display.println(inMsg.id,HEX);
+      display.setCursor(95, 52);
+      display.println("m/s^2");
 
       msg.buf[0] = gValue.z * 9.81;
       msg.buf[1] = gValue.y * 9.81;
       msg.buf[2] = gValue.x * 9.81;
 
       Can0.write(msg);
-      display.setCursor(90,52);
+      display.setCursor(69,52);
       display.println(gValue.z*9.81);
+
       //rCount++;
       display.display();
       delay(20);
