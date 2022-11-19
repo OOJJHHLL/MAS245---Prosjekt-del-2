@@ -1,5 +1,9 @@
-// Sende IMU-verdier over CAN-bus 
-// Koden basserer seg på  CANtest for Teensy 3.6 dual CAN bus av Collin Kidder fra FlexCAN library master biblioteket
+/* Sende IMU-verdier over CAN-bus
+  * Koden baserer seg på:
+  * CANtest for Teensy 3.6 dual CAN bus av Collin Kidder fra FlexCAN library master biblioteket
+  * Teensy CAN-Bus with OLED 128x64 demoen til skpang
+  * IMU...
+*/
 
 #include <FlexCAN.h>
 #include <SPI.h>
@@ -13,14 +17,13 @@
 
 MPU9250_WE myMPU9250 = MPU9250_WE(MPU9250_ADDR);
 
-
 #define OLED_DC     6
 #define OLED_CS     10
 #define OLED_RESET  5
 Adafruit_SSD1306 display(OLED_DC, OLED_RESET, OLED_CS);
 
 
-static CAN_message_t msg;
+CAN_message_t msg;
 CAN_message_t inMsg;
 
 static uint8_t hex[17] = "0123456789abcdef";
@@ -45,17 +48,17 @@ int rCount = 1;
 
 void setup() 
 {
-Can0.begin(250000);  
+  Can0.begin(250000); // bit-rate
 
-  // Sjekk at du bruker riktig pin
-  pinMode(2, OUTPUT); //can0
-
+  // CAN0 porten benyttes
+  pinMode(2, OUTPUT);
   digitalWrite(2, HIGH);
 
   msg.ext = 0;
   msg.id = 0x22; 
   msg.len = 8;
-  // Meldingene som skal sendes
+
+  // Initialiserer meldingene som skal sendes
   msg.buf[0] = 0;
   msg.buf[1] = 0;
   msg.buf[2] = 0;
@@ -96,8 +99,8 @@ Can0.begin(250000);
 
 void set_display()
 {  
-  display.clearDisplay(); 
-  display.drawRoundRect(1,1,127,63,4,WHITE);
+  display.clearDisplay(); // Innholder på displayet fjernes
+  display.drawRoundRect(1,1,127,63,4,WHITE); // Rammen tegnes
   display.setTextSize(0);
   display.setTextColor(WHITE);
 
@@ -112,7 +115,6 @@ void set_display()
   display.setCursor(3,30);
   display.println("Antall mottatt:");
 
-
   display.setCursor(3,40);
   display.println("Mottok sist ID:");
   display.setCursor(3,47);
@@ -120,11 +122,10 @@ void set_display()
   
   display.setCursor(3,52);
   display.println("IMU-verdi:");
-
   display.setCursor(95, 52);
   display.println("m/s^2");
 
-  display.display();
+  display.display(); // Informasjonen vises på displayet
 }
 
 
@@ -136,12 +137,9 @@ void loop()
   xyzFloat gValue = myMPU9250.getGValues();
   float resultantG = myMPU9250.getResultantG(gValue);
 
-
-
 while (Can0.available()) 
   {
-
-    set_display(); // Setter opp displayet
+    set_display(); // Henter display-funksjonen
 
     Can0.read(inMsg); // Leser melding sendt utenifra (fra PCAN-view)
     hexDump(8, inMsg.buf);
@@ -149,7 +147,7 @@ while (Can0.available())
     display.setCursor(110,30);
     display.println(rCount);
     display.setCursor(120,40);
-    display.println(inMsg.id,HEX); // Skriver HEX for å unngå at IDen konverteres til int
+    display.println(inMsg.id,HEX); // Skriver HEX for å unngå at ID-en konverteres til int
 
   }  
   if (inMsg.id == 33) //  0x21 = 33
