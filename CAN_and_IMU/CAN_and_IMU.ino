@@ -2,12 +2,12 @@
   * Koden baserer seg på:
   * CANtest for Teensy 3.6 dual CAN bus av Collin Kidder fra FlexCAN library master biblioteket
   * Teensy CAN-Bus with OLED 128x64 demoen til skpang
-  * IMU...
+  * MPU9250_WE biblioteket er skrevet av Wolfgang Ewald og benyttes til innhenting av aksellerasjonsdata
 */
 
 #include <FlexCAN.h>
 #include <SPI.h>
-#include <Wire.h>
+#include <Wire.h> //Brukes for I2C kommunikasjon
 #include <Adafruit_GFX.h>
 #include <Adafruit_SSD1306.h>
 #include <MPU9250_WE.h>
@@ -74,8 +74,10 @@ void setup()
   
 
   Serial.begin(115200);
-  Wire.begin();
-  if(!myMPU9250.init()){
+
+  Wire.begin(); //Starter I2C kommunikasjonen
+  if(!myMPU9250.init()) // Sjekker at det er forbindelse med MPU-en
+  {
     Serial.println("MPU9250 does not respond");
   }
   else{
@@ -134,7 +136,7 @@ void loop()
 
   xyzFloat accRaw = myMPU9250.getAccRawValues();
   xyzFloat accCorrRaw = myMPU9250.getCorrectedAccRawValues();
-  xyzFloat gValue = myMPU9250.getGValues();
+  xyzFloat gValue = myMPU9250.getGValues(); //Aksellerasjonsdataen hentes fra denne variablen i form av g (1 g = 9.81 m/s^2)
   float resultantG = myMPU9250.getResultantG(gValue);
 
 while (Can0.available()) 
