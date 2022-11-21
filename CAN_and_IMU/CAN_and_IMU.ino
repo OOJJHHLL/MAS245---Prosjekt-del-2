@@ -7,7 +7,7 @@
 
 #include <FlexCAN.h>
 #include <SPI.h>
-#include <Wire.h> //Brukes for I2C kommunikasjon
+#include <Wire.h>
 #include <Adafruit_GFX.h>
 #include <Adafruit_SSD1306.h>
 #include <MPU9250_WE.h>
@@ -22,16 +22,13 @@ MPU9250_WE myMPU9250 = MPU9250_WE(MPU9250_ADDR);
 #define OLED_RESET  5
 Adafruit_SSD1306 display(OLED_DC, OLED_RESET, OLED_CS);
 
-
 CAN_message_t msg;
 CAN_message_t inMsg;
 
 static uint8_t hex[17] = "0123456789abcdef";
 
 
-
-// Hexdump: Prints contents of a file, byte by byte - https://people.sc.fsu.edu/~jburkardt/cpp_src/hexdump/hexdump.html
-static void hexDump(uint8_t dumpLen, uint8_t *bytePtr)
+static void hexDump(uint8_t dumpLen, uint8_t *bytePtr) // Dataen sendes som heksadesimaler
 {
   uint8_t working;
   while( dumpLen-- ) {
@@ -74,10 +71,8 @@ void setup()
   
 
   Serial.begin(115200);
-
-  Wire.begin(); //Starter I2C kommunikasjonen
-  if(!myMPU9250.init()) // Sjekker at det er forbindelse med MPU-en
-  {
+  Wire.begin();
+  if(!myMPU9250.init()){
     Serial.println("MPU9250 does not respond");
   }
   else{
@@ -136,7 +131,7 @@ void loop()
 
   xyzFloat accRaw = myMPU9250.getAccRawValues();
   xyzFloat accCorrRaw = myMPU9250.getCorrectedAccRawValues();
-  xyzFloat gValue = myMPU9250.getGValues(); //Aksellerasjonsdataen hentes fra denne variablen i form av g (1 g = 9.81 m/s^2)
+  xyzFloat gValue = myMPU9250.getGValues();
   float resultantG = myMPU9250.getResultantG(gValue);
 
 while (Can0.available()) 
